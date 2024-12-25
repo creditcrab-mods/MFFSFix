@@ -1,0 +1,52 @@
+{
+    "field": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "field1",
+                "stream": false
+            },
+            {
+                "name": "field2",
+                "stream": false
+            },
+            {
+                "name": "field3",
+                "stream": false
+            },
+            {
+                "name": "field4",
+                "stream": false
+            },
+            {
+                "name": "field5",
+                "stream": false
+            }
+        ]
+    },
+    "fieldmove": {
+        "category": "master",
+        "sounds": [
+            {
+                "name": "fieldmove1",
+                "stream": false
+            },
+            {
+                "name": "fieldmove2",
+                "stream": false
+            },
+            {
+                "name": "fieldmove3",
+                "stream": false
+            },
+            {
+                "name": "fieldmove4",
+                "stream": false
+            },
+            {
+                "name": "fieldmove5",
+                "stream": false
+            }
+        ]
+    }
+}
