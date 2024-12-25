@@ -79,7 +79,7 @@ import universalelectricity.prefab.TranslationHelper;
 @Mod(
     modid = "MFFS",
     name = "Modular Force Field System",
-    version = ModularForceFieldSystem.VERSION,
+    version = Tags.VERSION,
     useMetadata = true,
     dependencies = "required-after:basiccomponents;after:IC2"
 )
@@ -88,7 +88,7 @@ public class ModularForceFieldSystem {
     public static final String ID = "MFFS";
     public static final String NAME = "Modular Force Field System";
     public static final String PREFIX = "mffs:";
-    public static final String VERSION = "{VERSION}";
+    public static final String VERSION = Tags.VERSION;
     @Mod.Instance("MFFS")
     public static ModularForceFieldSystem instance;
     @Mod.Metadata("MFFS")
