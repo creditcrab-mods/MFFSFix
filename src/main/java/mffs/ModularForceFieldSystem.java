@@ -25,13 +25,7 @@ import mffs.base.PacketFxs;
 import mffs.base.PacketFxsHandler;
 import mffs.base.PacketTile;
 import mffs.base.PacketTileHandler;
-import mffs.block.BlockBiometricIdentifier;
-import mffs.block.BlockCoercionDeriver;
-import mffs.block.BlockForceField;
-import mffs.block.BlockForceFieldProjector;
-import mffs.block.BlockForceManipulator;
-import mffs.block.BlockFortronCapacitor;
-import mffs.block.BlockInterdictionMatrix;
+import mffs.block.*;
 import mffs.card.ItemCard;
 import mffs.fortron.FortronHelper;
 import mffs.fortron.FrequencyGrid;
@@ -68,8 +62,13 @@ import mffs.tileentity.TileEntityForceManipulator;
 import mffs.tileentity.TileEntityFortronCapacitor;
 import mffs.tileentity.TileEntityInterdictionMatrix;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBucket;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.IIcon;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -154,6 +153,10 @@ public class ModularForceFieldSystem {
     public static ItemModule itemModuleAntiSpawn;
     public static DamageSource damagefieldShock;
 
+    public static Block blockFortron;
+
+    public static Item bucketFortron;
+
     public static SimpleNetworkWrapper channel;
 
     @EventHandler
@@ -216,6 +219,9 @@ public class ModularForceFieldSystem {
         ModularForceFieldSystem.itemCardID = new ItemCardID();
         ModularForceFieldSystem.itemCardInfinite = new ItemCardInfinite();
         FortronHelper.FLUID_FORTRON = new Fluid("fortron");
+
+
+
         ModularForceFieldSystem.itemModuleCollection
             = new ItemModule("moduleCollection").setMaxStackSize(1).setCost(15.0f);
         ModularForceFieldSystem.itemModuleInvert
@@ -270,10 +276,18 @@ public class ModularForceFieldSystem {
             TileEntityForceManipulator.class, "tileForceManipulator"
         );
 
+
+
         ModularForceFieldSystem.proxy.preInit();
 
         FluidRegistry.registerFluid(FortronHelper.FLUID_FORTRON);
-
+        blockFortron = new BlockFortron();
+        GameRegistry.registerBlock(blockFortron, "blockFortron");
+        bucketFortron = (new ItemBucket(blockFortron).setCreativeTab(null))
+            .setUnlocalizedName("mffs:bucketFortron")
+            .setTextureName("mffs:bucketFortron")
+            .setContainerItem(Items.bucket);
+        GameRegistry.registerItem(bucketFortron,"itemBucketFortron");
         GameRegistry.registerItem(itemRemoteController, "itemRemoteController");
         GameRegistry.registerItem(itemFocusMatrix, "itemFocusMatix");
         GameRegistry.registerItem(itemCardBlank, "itemCardBlank");

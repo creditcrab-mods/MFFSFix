@@ -38,5 +38,6 @@ dependencies {
     implementation ("universalelectricity:basiccomponents:2.0.0:deobf")
     implementation ("universalelectricity:universalelectricity:5.1.0:deobf")
     implementation ('net.industrial-craft:industrialcraft-2:2.2.827-experimental:dev')
-    implementation ('dan200:ComputerCraft:1.75:deobf')
+    runtimeOnlyNonPublishable("curse.maven:enderstorage-229306:2262092")
+    implementation files('build/libs/ComputerCraft1.75.jar')
 }
