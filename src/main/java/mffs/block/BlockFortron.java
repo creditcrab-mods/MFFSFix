@@ -22,7 +22,6 @@ public class BlockFortron extends BlockFluidClassic {
     @SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister) {
         this.blockIcon = iconRegister.registerIcon("mffs:fortron");
-        FortronHelper.FLUID_FORTRON.setIcons(this.blockIcon);
 
 
     }

@@ -1,9 +1,13 @@
 package mffs;
 
+import cofh.core.render.IconRegistry;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mffs.gui.GuiBiometricIdentifier;
 import mffs.gui.GuiCoercionDeriver;
 import mffs.gui.GuiForceFieldProjector;
@@ -28,13 +32,18 @@ import mffs.tileentity.TileEntityFortronCapacitor;
 import mffs.tileentity.TileEntityInterdictionMatrix;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.fluids.Fluid;
 import universalelectricity.core.vector.Vector3;
+
+import static mffs.fortron.FortronHelper.FLUID_FORTRON;
 
 public class ClientProxy extends CommonProxy {
     @Override
@@ -167,5 +176,35 @@ public class ClientProxy extends CommonProxy {
     public boolean isSneaking() {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         return player.isSneaking();
+    }
+
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent
+    public void registerIcons(TextureStitchEvent.Pre event){
+        if(event.map.getTextureType() == 0){
+            registerTexture(event.map);
+        }
+
+    }
+
+
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent
+    private void initializeIcons(TextureStitchEvent.Post event){
+        if(event.map.getTextureType() == 0){
+            initializeFluidTexture(FLUID_FORTRON);
+        }
+
+    }
+
+    private void registerTexture(IIconRegister ir){
+        IconRegistry.addIcon("Fluid" + FLUID_FORTRON.getName(),"mffs:fortron",ir);
+    }
+
+
+
+    private void initializeFluidTexture(Fluid fluid){
+        var name = fluid.getName();
+        fluid.setIcons(IconRegistry.getIcon("Fluid" + name));
     }
 }

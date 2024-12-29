@@ -67,11 +67,14 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBucket;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import universalelectricity.prefab.CustomDamageSource;
 import universalelectricity.prefab.TranslationHelper;
 
@@ -164,7 +167,7 @@ public class ModularForceFieldSystem {
         NetworkRegistry.INSTANCE.registerGuiHandler(
             (Object) this, (IGuiHandler) ModularForceFieldSystem.proxy
         );
-        MinecraftForge.EVENT_BUS.register((Object) new SubscribeEventHandler());
+
         Settings.load();
         Settings.CONFIGURATION.load();
         ModularForceFieldSystem.blockForceField = new BlockForceField();
@@ -218,7 +221,7 @@ public class ModularForceFieldSystem {
         ModularForceFieldSystem.itemCardLink = new ItemCardLink();
         ModularForceFieldSystem.itemCardID = new ItemCardID();
         ModularForceFieldSystem.itemCardInfinite = new ItemCardInfinite();
-        FortronHelper.FLUID_FORTRON = new Fluid("fortron");
+
 
 
 
@@ -279,7 +282,7 @@ public class ModularForceFieldSystem {
 
 
         ModularForceFieldSystem.proxy.preInit();
-
+        FortronHelper.FLUID_FORTRON = new Fluid("fortron").setUnlocalizedName("mffs:fortron");
         FluidRegistry.registerFluid(FortronHelper.FLUID_FORTRON);
         blockFortron = new BlockFortron();
         GameRegistry.registerBlock(blockFortron, "blockFortron");
@@ -287,6 +290,11 @@ public class ModularForceFieldSystem {
             .setUnlocalizedName("mffs:bucketFortron")
             .setTextureName("mffs:bucketFortron")
             .setContainerItem(Items.bucket);
+        FluidContainerRegistry.registerFluidContainer(new FluidContainerRegistry.FluidContainerData(
+            new FluidStack(FortronHelper.FLUID_FORTRON, 1000),
+            new ItemStack(bucketFortron),
+            new ItemStack(Items.bucket)
+        ));
         GameRegistry.registerItem(bucketFortron,"itemBucketFortron");
         GameRegistry.registerItem(itemRemoteController, "itemRemoteController");
         GameRegistry.registerItem(itemFocusMatrix, "itemFocusMatix");
@@ -338,7 +346,8 @@ public class ModularForceFieldSystem {
     }
 
     @EventHandler
-    public void load(final FMLInitializationEvent evt) {
+    public void init(final FMLInitializationEvent evt) {
+        MinecraftForge.EVENT_BUS.register(proxy);
         ModularForceFieldSystem.LOGGER.fine(
             "Language(s) Loaded: "
             + TranslationHelper.loadLanguages(
