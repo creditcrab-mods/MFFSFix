@@ -1,6 +1,5 @@
 package mffs;
 
-import cofh.core.render.IconRegistry;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -8,34 +7,16 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import mffs.gui.GuiBiometricIdentifier;
-import mffs.gui.GuiCoercionDeriver;
-import mffs.gui.GuiForceFieldProjector;
-import mffs.gui.GuiForceManipulator;
-import mffs.gui.GuiFortronCapacitor;
-import mffs.gui.GuiInterdictionMatrix;
-import mffs.render.FXBeam;
-import mffs.render.FXHologram;
-import mffs.render.FXHologramMoving;
-import mffs.render.RenderBlockHandler;
-import mffs.render.RenderCoercionDeriver;
-import mffs.render.RenderForceField;
-import mffs.render.RenderForceFieldProjector;
-import mffs.render.RenderForceManipulator;
-import mffs.render.RenderFortronCapacitor;
-import mffs.render.RenderIDCard;
-import mffs.tileentity.TileEntityBiometricIdentifier;
-import mffs.tileentity.TileEntityCoercionDeriver;
-import mffs.tileentity.TileEntityForceFieldProjector;
-import mffs.tileentity.TileEntityForceManipulator;
-import mffs.tileentity.TileEntityFortronCapacitor;
-import mffs.tileentity.TileEntityInterdictionMatrix;
+import mffs.gui.*;
+import mffs.render.*;
+import mffs.tileentity.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -182,29 +163,15 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void registerIcons(TextureStitchEvent.Pre event){
         if(event.map.getTextureType() == 0){
-            registerTexture(event.map);
+            registerTexture(event.map,FLUID_FORTRON);
         }
 
     }
 
-
-    @SideOnly(Side.CLIENT)
-    @SubscribeEvent
-    private void initializeIcons(TextureStitchEvent.Post event){
-        if(event.map.getTextureType() == 0){
-            initializeFluidTexture(FLUID_FORTRON);
-        }
-
-    }
-
-    private void registerTexture(IIconRegister ir){
-        IconRegistry.addIcon("Fluid" + FLUID_FORTRON.getName(),"mffs:fortron",ir);
-    }
-
-
-
-    private void initializeFluidTexture(Fluid fluid){
+    private void registerTexture(IIconRegister ir, Fluid fluid){
         var name = fluid.getName();
-        fluid.setIcons(IconRegistry.getIcon("Fluid" + name));
+        IIcon fluidIcon = ir.registerIcon("mffs:fortron");
+        //IconRegistry.addIcon("Fluid" + name,"mffs:fortron",ir);
+        FLUID_FORTRON.setIcons(fluidIcon);
     }
 }

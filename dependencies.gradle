@@ -39,6 +39,6 @@ dependencies {
     implementation ("universalelectricity:universalelectricity:5.1.0:deobf")
     implementation ('net.industrial-craft:industrialcraft-2:2.2.827-experimental:dev')
     runtimeOnlyNonPublishable("curse.maven:enderstorage-229306:2262092")
-    implementation( deobfCurse("cofh-core-69162:2388750"))
+    //implementation( deobfCurse("cofh-core-69162:2388750"))
     implementation files('build/libs/ComputerCraft1.75.jar')
 }
