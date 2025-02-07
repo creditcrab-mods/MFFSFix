@@ -11,8 +11,8 @@ import net.minecraft.world.World;
 import universalelectricity.core.vector.Vector3;
 
 public class BlockNotifyDelayedEvent extends DelayedEvent {
-    private World world;
-    private Vector3 position;
+    private final World world;
+    private final Vector3 position;
 
     public BlockNotifyDelayedEvent(
         final IDelayedEventHandler handler,
@@ -32,26 +32,25 @@ public class BlockNotifyDelayedEvent extends DelayedEvent {
                 this.position.intX(),
                 this.position.intY(),
                 this.position.intZ(),
-                this.position.getBlock((IBlockAccess) this.world)
+                this.position.getBlock(this.world)
             );
             final TileEntity newTile
-                = this.position.getTileEntity((IBlockAccess) this.world);
+                = this.position.getTileEntity(this.world);
             if (newTile != null) {
                 if (newTile instanceof ISpecialForceManipulation) {
                     ((ISpecialForceManipulation) newTile).postMove();
                 }
-                if (Loader.isModLoaded("BuildCraft|Factory")) {
+                if (Loader.isModLoaded("BuildCraft|Builders")) {
                     try {
                         final Class clazz
-                            = Class.forName("buildcraft.factory.TileQuarry");
+                            = Class.forName("buildcraft.builders.TileQuarry");
                         if (clazz == newTile.getClass()) {
                             // TODO: W T F AAAAAAAAAAAAA
                             ReflectionHelper.setPrivateValue(
                                 clazz,
                                 (Object) newTile,
                                 (Object) true,
-                                new String[] { "isAlive" }
-                            );
+                                    "isAlive");
                         }
                     } catch (final Exception e) {
                         e.printStackTrace();
